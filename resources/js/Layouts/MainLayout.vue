@@ -12,7 +12,8 @@ import AccountOutline from 'vue-material-design-icons/AccountOutline.vue';
 import ChevronLeft from 'vue-material-design-icons/ChevronLeft.vue';
 import AccountPlusOutline from 'vue-material-design-icons/AccountPlusOutline.vue';
 
-import NavItem from '@/Components/NavItem.vue';
+import MenuItem from '@/Components/MenuItem.vue';
+import CreatePostModal from '@/Components/CreatePostModal.vue';
 
 let showCreatePost = ref(false);
 </script>
@@ -47,7 +48,7 @@ let showCreatePost = ref(false);
             </div>
         </div>
         <div
-            v-if="page.url !== '/'"
+            v-if="$page.url !== '/'"
             id="TopNavUser"
             class="md:hidden fixed flex items-center justify-between z-30 w-full bg-white h-[61px] border-b border-b-gray-300"
         >
@@ -66,9 +67,91 @@ let showCreatePost = ref(false);
 
             <div class="px-3">
                 <Link href="/">
-                    <NavItem iconString="Home" class="mb-4" />
+                    <MenuItem iconString="Home" class="mb-4" />
+                </Link>
+                <MenuItem iconString="Search" class="mb-4" />
+                <MenuItem iconString="Explore" class="mb-4" />
+                <MenuItem iconString="Messages" class="mb-4" />
+                <MenuItem iconString="Notifications" class="mb-4" />
+                <MenuItem @click="$event => showCreatePost = true" iconString="Create" class="mb-4" />
+                <Link href="/">
+                    <MenuItem iconString="Profile" class="mb-4" />
                 </Link>
             </div>
+
+            <Link href="/" class="absolute bottom-0 px-3 w-full">
+                <MenuItem iconString="Log out" class="mb-4" />
+            </Link>
+        </div>
+
+        <div class="flex lg:justify-between bg-white h-full w-[100%-280px] xl:pl-[280px] xl:pl-[280px] lg:pl-[100px] overflow-auto">
+            <div
+                class="mx-auto md:pt-6 pt-20"
+                :class="$page.url === '/' ? 'lg:w-8/12 w-full' : 'max-w-[1200px]'"
+            >
+                <main>
+                    <slot />
+                </main>
+            </div>
+
+            <div v-if="$page.url === '/'" id="SuggestionSection" class="lg:w-4/12 lg:block hidden text-black mt-10">
+                <Link href="/" class="flex items-center justify-between max-w-[300px]">
+                    <div class="flex items-center">
+                        <img class="rounded-full z-10 w-[58px] h-[58px]" src="https://picsum.photos/id/8/300/320" alt="Profile Picture">
+                        <div class="pl-4">
+                            <div class="text-black font-extrabold">NAME HERE</div>
+                            <div class="text-gray-500 text-extrabold text-sm">NAME HERE</div>
+                        </div>
+                    </div>
+                    <button class="text-blue-500 hover:text-gray-900 text-xs font-extrabold">
+                        Switch
+                    </button>
+                </Link>
+
+                <div class="max-w-[300px] flex items-center justify-between py-3">
+                    <div class="text-gray-500 font-extrabold">Suggestions for you</div>
+                    <button class="text-blue-500 hover:text-gray-900 text-xs font-extrabold">
+                        See All
+                    </button>
+                </div>
+
+                <Link href="/" class="flex items-center justify-between max-w-[300px] pb-2">
+                    <div class="flex items-center">
+                        <img class="rounded-full z-10 w-[37px] h-[37px]" src="https://picsum.photos/id/200/300/320" alt="Profile Picture">
+                        <div class="pl-4">
+                            <div class="text-black font-extrabold">NAME HERE</div>
+                            <div class="text-gray-500 text-extrabold text-sm">NAME HERE</div>
+                        </div>
+                    </div>
+                    <button class="text-blue-500 hover:text-gray-900 text-xs font-extrabold">
+                        Follow
+                    </button>
+                </Link>
+
+                <div class="max-w-[300px] mt-5">
+                    <div class="text-sm text-gray-400">About Help Press API Jobs Privacy Terms Locations Language Meta Verified</div>
+                    <div class="text-left text-gray-400 mt-4">2023 INSTAGRAM FROM META</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="BottomNav" class="fixed z-30 bottom-0 w-full md:hidden flex items-center justify-around bg-white border-t py-2 border-t-gray-300">
+            <Link href="/">
+                <HomeOutline fillColor="#000000" :size="33" class="cursor-pointer" />
+            </Link>
+            <Compass fillColor="#000000" :size="33" class="cursor-pointer" />
+            <SendOutline fillColor="#000000" :size="33" class="cursor-pointer" />
+            <Plus @click="$event => showCreatePost = true" fillColor="#000000" :size="33" class="cursor-pointer" />
+            <AccountOutline fillColor="#000000" :size="33" class="cursor-pointer" />
+            <Link href="/">
+                <img
+                    class="rounded-full w-[30px] cursor-pointer"
+                    src="https://picsum.photos/id/200/300/320"
+                    alt="Profile Picture"
+                >
+            </Link>
         </div>
     </div>
+
+    <CreatePostModal v-if="showCreatePost" @close="$event => showCreatePost = false" />
 </template>

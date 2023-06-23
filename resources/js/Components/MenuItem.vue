@@ -39,6 +39,10 @@ if (iconString.value === 'Log out') icon = Menu
                 src="https://picsum.photos/id/8/300/320"
                 alt="Profile Picture"
             >
+            <component v-else :is="icon" fillColor="#000000" :size="36" />
+            <span class="xl:block hidden text-black font-extrabold text-[18px] pl-2 mt-0.5">
+                {{ iconString }}
+            </span>
         </div>
     </div>
 </template>
