@@ -24,6 +24,13 @@ const submit = () => {
     <GuestLayout>
         <Head title="Register" />
 
+        <img
+            class="mx-auto pt-8 pb-6"
+            width="200"
+            src="/insta-logo.png"
+            alt="logo"
+        >
+
         <form @submit.prevent="submit">
             <div>
                 <InputLabel for="name" value="Name" />
