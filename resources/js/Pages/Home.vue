@@ -2,6 +2,7 @@
     import { ref, onMounted, toRefs } from 'vue';
     import { Head, Link, router } from '@inertiajs/vue3';
     import MainLayout from '@/Layouts/MainLayout.vue';
+    import LikeSection from '@/Components/LikeSection.vue';
 
     import 'vue3-carousel/dist/carousel.css';
     import { Carousel, Slide, Navigation } from 'vue3-carousel';
@@ -66,8 +67,26 @@
                             <div>DATE HERE</div>
                         </div>
                     </div>
+
+                    <DotsHorizontal class="cursor-pointer" :size="27" />
                 </div>
+
+                <div class="bg-black rounded-lg w-full min-h-[400px] flex items-center">
+                    <img class="mx-auto w-full" src="https://picsum.photos/id/54/300/320" alt="Post">
+                </div>
+
+                <LikeSection />
+
+                <div class="text-black font-extrabold py-1">3 likes</div>
+                <div>
+                    <span class="text-black font-extrabold">NAME HERE</span>
+                    this is some text here
+                </div>
+                <button class="text-gray-500 font-extrabold py-1">
+                    View all 4 comments
+                </button>
             </div>
+            <div class="pb-20"></div>
         </div>
     </MainLayout>
 </template>
