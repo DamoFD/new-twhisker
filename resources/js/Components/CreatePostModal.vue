@@ -80,7 +80,10 @@
             <div class="flex items-center justify-between w-full rounded-t-xl p-3 border-b border-b-gray-300">
                 <ArrowLeft class="cursor-pointer" :size="30" fillColor="#000000" @click="$event => closeOverlay()" />
                 <div class="text-lg font-extrabold">New reel</div>
-                <button class="text-lg text-blue-500 hover:text-gray-900 font-extrabold">
+                <button
+                    @click="$event => createPostFunc()"
+                    class="text-lg text-blue-500 hover:text-gray-900 font-extrabold"
+                >
                     Share
                 </button>
             </div>
