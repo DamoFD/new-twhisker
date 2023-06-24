@@ -3,6 +3,7 @@ import { ref, toRefs } from 'vue'
 import { usePage } from '@inertiajs/vue3'
 
 import LikeSection from '@/Components/LikeSection.vue'
+import ShowPostOptionsOverlay from '@/Components/ShowPostOptionsOverlay.vue'
 
 import Close from 'vue-material-design-icons/Close.vue'
 import DotsHorizontal from 'vue-material-design-icons/DotsHorizontal.vue'
@@ -125,4 +126,6 @@ const textareaInput = (e) => {
             </div>
         </div>
     </div>
+
+    <ShowPostOptionsOverlay v-if="deleteType"/>
 </template>
