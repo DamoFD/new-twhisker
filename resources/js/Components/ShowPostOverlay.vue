@@ -150,15 +150,15 @@ const textareaInput = (e) => {
         v-if="deleteType"
         :deleteType="deleteType"
         :id="id"
-        @deleteSelected="() => {
+        @deleteSelected="
             $emit('deleteSelected', {
-                deleteType: $event.deletetype,
+                deleteType: $event.deleteType,
                 id: $event.id,
                 post: post,
             })
             deleteType = null;
             id = null;
-        }"
+        "
         @close="() => { deleteType = null; id = null }"
     />
 </template>

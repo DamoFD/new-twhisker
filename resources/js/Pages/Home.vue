@@ -35,6 +35,23 @@
         })
     }
 
+    const deleteFunc = (object) => {
+        let url = ''
+        if (object.deleteType === 'Post') {
+            url = '/posts/' + object.id
+        } else {
+            url = '/comments/' + object.id
+        }
+
+        router.delete(url, {
+            onFinish: () => updatedPost(object),
+        })
+
+        if (object.deleteType === 'Post') {
+            openOverlay.value = false
+        }
+    }
+
     const updateLike = (object) => {
         let deleteLike = false
         let id = null
@@ -148,7 +165,6 @@
         @updateLike="$event => updateLike($event)"
         @deleteSelected="$event => {
             deleteFunc($event);
-            openOverlay = false
         }
         "
         @closeOverlay="$event => openOverlay = false"
