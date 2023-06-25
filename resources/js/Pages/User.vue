@@ -101,6 +101,7 @@
                 </label>
                 <input
                     v-if="user.id === $page.props.auth.user.id"
+                    id="fileUser"
                     type="file"
                     class="hidden"
                     @input="$event => getUploadedImage($event)"

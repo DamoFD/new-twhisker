@@ -7,7 +7,7 @@
     import MapMarkerOutline from 'vue-material-design-icons/MapMarkerOutline.vue';
     import ChevronDown from 'vue-material-design-icons/ChevronDown.vue';
 
-    // const user = usePage().props.auth.user
+    const user = usePage().props.auth.user
 
     const emit = defineEmits(['close']);
 
@@ -110,14 +110,14 @@
                             File not accepted
                         </div>
                     </div>
-                    <img v-if="fileDisplay && isValidFile === true" class="min-w-[400px] p-4 mx-auto" :src="fileDisplay" alt="Uploaded File">
+                    <img v-if="fileDisplay && isValidFile === true" class="min-w-[400px] p-4 mx-auto" :src="fileDisplay" :alt="'Post by ' + user.name">
                 </div>
 
                 <div id="TextAreaSection" class="max-w-[720px] w-full relative">
                     <div class="flex items-center justify-between p-3">
                         <div class="flex items-center">
-                            <img class="rounded-full w-[38px] h-[38px]" src="https://picsum.photos/id/50/300/320" alt="Profile Picture">
-                            <div class="ml-4 font-extrabold text-[15px]">NAME HERE</div>
+                            <img class="rounded-full w-[38px] h-[38px]" :src="user.file" :alt="user.name + '\'s Profile Picture'">
+                            <div class="ml-4 font-extrabold text-[15px]">{{ user.name }}</div>
                         </div>
                     </div>
 
