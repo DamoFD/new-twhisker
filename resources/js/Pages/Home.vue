@@ -35,6 +35,31 @@
         })
     }
 
+    const updateLike = (object) => {
+        let deleteLike = false
+        let id = null
+
+        for (let i = 0; i < object.post.likes.length; i++) {
+            const like = object.post.likes[i];
+            if (like.user_id === object.user.id && like.post_id === object.post.id) {
+                deleteLike = true
+                id = like.id
+            }
+        }
+
+        if (deleteLike) {
+            router.delete('/likes/' + id, {
+                onFinish: () => updatedPost(object),
+            })
+        } else {
+            router.post('/likes', {
+                post_id: object.post.id,
+            }, {
+                onFinish: () => updatedPost(object),
+            })
+        }
+    }
+
     const updatedPost = (object) => {
         for (let i = 0; i < posts.value.data.length; i++) {
             const post = posts.value.data[i];

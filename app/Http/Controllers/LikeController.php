@@ -20,7 +20,7 @@ class LikeController extends Controller
 
     public function destroy($id)
     {
-        $like = Like::fine($id);
+        $like = Like::find($id);
         if (count(collect($like)) > 0) {
             $like->delete();
         }

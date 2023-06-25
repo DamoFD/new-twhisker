@@ -18,7 +18,7 @@
     const isHeartActiveComputed = computed(() => {
         let isTrue = false
 
-        for (let index = 0; index < post.value.likes.length; index++) {
+        for (let i = 0; i < post.value.likes.length; i++) {
             const like = post.value.likes[i];
             if (like.user_id === user.id && like.post_id === post.value.id) {
                 isTrue = true
@@ -32,7 +32,7 @@
 <template>
     <div class="flex z-20 items-center justify-between">
         <div class="flex items-center">
-            <button @click="$event => $emit('like', { post, user })" class="-mt-[14px]">
+            <button @click="$emit('like', { post, user })" class="-mt-[14px]">
                 <HeartOutline v-if="!isHeartActiveComputed" class="pl-3 cursor-pointer" :size="30" />
                 <Heart v-else class="pl-3 cursor-pointer" fillColor="#FF0000" :size="30" />
             </button>
