@@ -1,6 +1,6 @@
 <script setup>
     import { reactive, toRefs } from 'vue';
-    import { Head, Link, router } from '@inertiajs/vue3';
+    import { Head, Link, router, usePage } from '@inertiajs/vue3';
     import MainLayout from '@/Layouts/MainLayout.vue';
     import ShowPostOverlay from '@/Components/ShowPostOverlay.vue';
     import ContentOverlay from '@/Components/ContentOverlay.vue';
@@ -14,8 +14,8 @@
     let data = reactive({ post: null})
     const form = reactive({ file: null })
 
-    const props = defineProps({ postsByUser: Object, user: Object})
-    const { postsByUser, user } = toRefs(props)
+    const props = defineProps({ postsByUser: Object, user: Object, followers: Array, followings: Array})
+    const { postsByUser, user, followers, followings } = toRefs(props)
 
     const addComment = (object) => {
         router.post('/comments', {
@@ -66,6 +66,44 @@
         }
     }
 
+    const updateFollow = (object) => {
+    let isFollowing = false;
+    let followId = null;
+    console.log(usePage().props.auth.user.id)
+
+    for (let i = 0; i < object.followers.length; i++) {
+        const follow = object.followers[i];
+        if (follow.user_id === usePage().props.auth.user.id) {
+            isFollowing = true;
+            followId = follow.id;
+            break;
+        }
+    }
+
+    if (isFollowing) {
+        router.delete('/follows/' + followId, {
+            onFinish: () => updatedFollowers(object),
+        });
+    } else {
+        router.post('/follows', {
+            user_id: usePage().props.auth.user.id,
+            follow_user_id: object.user.id,
+        }, {
+            onFinish: () => updatedFollowers(object),
+        });
+    }
+}
+
+    const updatedFollowers = (object) => {
+        for (let i = 0; i < object.followers.length; i++) {
+            const follower = object.followers[i];
+            if (follower.id === object.user.id) {
+                data.user = follower;
+                break;
+            }
+        }
+    }
+
     const updatedPost = (object) => {
         for (let i = 0; i < postsByUser.value.data.length; i++) {
             const post = postsByUser.value.data[i];
@@ -113,7 +151,10 @@
                         <button v-if="user.id === $page.props.auth.user.id" class="md:block hidden md:mr-6 p-1 px-4 rounded-lg text-[16px] font-extrabold bg-gray-100 hover:bg-gray-200">
                             Edit Profile
                         </button>
-                        <button v-else class="md:block hidden md:mr-6 p-1 px-4 rounded-lg text-[16px] font-extrabold bg-gray-100 hover:bg-gray-200">
+                        <button @click="updateFollow({user, followings, followers})" v-else-if="followers.some(follower => follower.user_id === $page.props.auth.user.id)" class="md:block hidden md:mr-6 p-1 px-4 rounded-lg text-[16px] font-extrabold bg-gray-100 hover:bg-gray-200">
+                            Following
+                        </button>
+                        <button @click="updateFollow({user, followings, followers})" v-else class="md:block hidden md:mr-6 p-1 px-4 rounded-lg text-[16px] font-extrabold bg-gray-100 hover:bg-gray-200">
                             Follow
                         </button>
                         <Cog v-if="user.id === $page.props.auth.user.id" :size="28" class="cursor-pointer" />
@@ -121,7 +162,10 @@
                     <button v-if="user.id === $page.props.auth.user.id" class="md:hidden mr-6 p-1 px-4 max-w-[260px] w-full rounded-lg text-[17px] font-extrabold bg-gray-100 hover:bg-gray-200">
                         Edit Profile
                     </button>
-                    <button v-else class="md:hidden mr-6 p-1 px-4 max-w-[260px] w-full rounded-lg text-[17px] font-extrabold bg-gray-100 hover:bg-gray-200">
+                    <button @click="updateFollow({user, followings, followers})" v-else-if="followers.some(follower => follower.user_id === $page.props.auth.user.id)" class="md:hidden mr-6 p-1 px-4 max-w-[260px] w-full rounded-lg text-[17px] font-extrabold bg-gray-100 hover:bg-gray-200">
+                        Following
+                    </button>
+                    <button @click="updateFollow({user, followings, followers})" v-else class="md:hidden mr-6 p-1 px-4 max-w-[260px] w-full rounded-lg text-[17px] font-extrabold bg-gray-100 hover:bg-gray-200">
                         Follow
                     </button>
                     <div class="md:block hidden">
@@ -130,10 +174,10 @@
                                 <span class="font-extrabold">{{ postsByUser.data.length }}</span> posts
                             </div>
                             <div class="mr-6">
-                                <span class="font-extrabold">123</span> followers
+                                <span class="font-extrabold">{{ followers.length }}</span> followers
                             </div>
                             <div class="mr-6">
-                                <span class="font-extrabold">456</span> following
+                                <span class="font-extrabold">{{ followings.length }}</span> following
                             </div>
                         </div>
                     </div>
@@ -148,11 +192,11 @@
                     <div class="text-gray-400 font-semibold -mt-1 5">posts</div>
                 </div>
                 <div class="text-center p-3">
-                    <div class="font-extrabold">43</div>
+                    <div class="font-extrabold">{{ followers.length }}</div>
                     <div class="text-gray-400 font-semibold -mt-1 5">followers</div>
                 </div>
                 <div class="text-center p-3">
-                    <div class="font-extrabold">55</div>
+                    <div class="font-extrabold">{{ followings.length }}</div>
                     <div class="text-gray-400 font-semibold -mt-1 5">following</div>
                 </div>
             </div>

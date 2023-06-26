@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\Post;
+use App\Models\Follow;
 use App\Models\Comment;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
@@ -54,5 +55,15 @@ class User extends Authenticatable
     public function comments()
     {
         return $this->hasMany(Comment::class);
+    }
+
+    public function followings()
+    {
+        return $this->hasMany(Follow::class, 'user_id');
+    }
+
+    public function followers()
+    {
+        return $this->hasMany(Follow::class, 'follow_user_id');
     }
 }

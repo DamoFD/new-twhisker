@@ -20,10 +20,14 @@ class UserController extends Controller
         }
 
         $posts = Post::where('user_id', $id)->orderBy('created_at', 'desc')->get();
+        $followings = $user->followings;
+        $followers = $user->followers;
 
         return Inertia::render('User', [
             'user' => $user,
             'postsByUser' => new AllPostsCollection($posts),
+            'followings' => $followings,
+            'followers' => $followers,
         ]);
     }
 

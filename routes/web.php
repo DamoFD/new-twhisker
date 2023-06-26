@@ -8,6 +8,7 @@ use App\Http\Controllers\LikeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\FollowController;
 use App\Http\Controllers\ProfileController;
 
 /*
@@ -36,6 +37,9 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/likes', [LikeController::class, 'store'])->name('likes.store');
     Route::delete('/likes/{id}', [LikeController::class, 'destroy'])->name('likes.destroy');
+
+    Route::post('/follows', [FollowController::class, 'store'])->name('follows.store');
+    Route::delete('/follows/{id}', [FollowController::class, 'destroy'])->name('follows.destroy');
     
 });
 
